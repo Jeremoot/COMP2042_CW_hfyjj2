@@ -47,8 +47,8 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
     private long goldTime = 0;
 
     // Path for saving and loading the game
-    public static String savePath    = "D:/save/save.mdds";
-    public static String savePathDir = "D:/save/";
+    public static String savePathDir = "target/save/";
+    public static String savePath    = savePathDir + "save.mdds";
 
     // Collections for game elements
     private ArrayList<Brick> bricks = new ArrayList<>();
@@ -407,7 +407,11 @@ public class Main extends Application implements EventHandler<KeyEvent>, GameEng
      */
     private void saveGame() {
         new Thread(() -> {
-            new File(savePathDir).mkdirs();
+            // Ensure the save directory exists
+            File saveDir = new File(savePathDir);
+            if (!saveDir.exists()) {
+                saveDir.mkdirs();
+            }
             File file = new File(savePath);
             ObjectOutputStream outputStream = null;
             try {
